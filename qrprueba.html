@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba qr adap</title>
+  <link rel="stylesheet" href="registros.css">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div class="contenedor">
+    <div class="conte-text ">
+      <h1 class="titul ">Registro de Estudiante</h1>
+      <p class="subtitul">Completa el siguiente formulario</p>
+    </div>
+    <div class="primeros-input">
+
+      <div class="contenedor-lista">
+        <label class="num-lista" for="list-number">
+          Número de lista
+        </label><br><br>
+        <input class="numero-lista" id="list-number" placeholder="Ingresa el número de lista" required="" />
+      </div>
+      <div class="contenedor-control">
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="control-number">
+          Número de control
+        </label><br><br>
+        <input class="num-control" id="control-number" placeholder="Ingresa el número de control" required="" />
+        <button onclick="generarQR()">Generar QR</button>
+        <button class="generar-btn" onclick="descargarQR()">Descargar QR</button>
+      </div>
+    </div><br>
+
+    <div id="qr-container"></div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    function generarQR() {
+      var numControl = document.getElementById("control-number").value;
+      if (numControl.trim() === "") {
+        alert("Por favor ingresa un número de control");
+        return;
+      }
+
+      var qrContainer = document.getElementById("qr-container");
+      qrContainer.innerHTML = ""; // Limpiar cualquier código QR anterior
+
+      var qr = new QRCode(qrContainer, {
+        text: numControl,
+        width: 128,
+        height: 128,
+      });
+    }
+
+  </script>
+</body>
+
+</html>

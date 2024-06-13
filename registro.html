@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de alumno</title>
+  <link rel="stylesheet" href="registros.css">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div class="contenedor">
+    <form>
+      <div class="conte-text ">
+        <h1 class="titul ">Registro de Estudiante</h1>
+        <p class="subtitul">Completa el siguiente formulario</p>
+      </div>
+      <div class="primeros-input">
+
+        <div class="contenedor-lista">
+          <label class="num-lista" for="list-number">
+            Número de lista
+          </label><br><br>
+          <input class="numero-lista" id="list-number" placeholder="Ingresa el número de lista" required="" />
+        </div>
+
+        <div class="contenedor-control">
+          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for="control-number">
+            Número de control
+          </label><br><br>
+          <input class="num-control" id="control-number" placeholder="Ingresa el número de control" required="" />
+        </div>
+
+        <!--<button onclick="generarQR()" class="qr-estilo">Generar QR</button><br>
+      <div id="qr-container" class="qr-qr"></div>-->
+      </div><br>
+
+      <div class="segundos-input">
+        <div class="contenedor-nom">
+          <label class="nom-completo" for="nombre">
+            Nombre Completo
+          </label><br><br>
+          <input class="nombre" id="name" placeholder="Ingresa el nombre completo del estudiante " required="" />
+        </div>
+      </div>
+      <div class="label-elecciones">
+        <label class="Lcarrera" for="nombre">
+          Carrera
+        </label>
+        <label class="LGrupo" for="nombre">
+          Grupo
+        </label>
+      </div>
+
+      <div class="elecciones">
+
+        <div class="select-menu elec1">
+          <div class="select-btn">
+            <span class="sBtn-text">Selecciona tu carrera</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+
+          <ul class="options" id="career-options">
+            <li class="option">
+              <span class="option-text">Programación</span>
+            </li>
+            <li class="option">
+              <span class="option-text">Animación digital</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="select-menu22 elec2">
+          <div class="select-btn22">
+            <span class="sBtn-text22">Selecciona tu grupo</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+
+          <ul class="options22" id="group-options">
+            <li class="option22">
+              <span class="option-text22">401</span>
+            </li>
+            <li class="option22">
+              <span class="option-text22">402</span>
+            </li>
+            <li class="option22">
+              <span class="option-text22">403</span>
+            </li>
+            <li class="option22">
+              <span class="option-text22">404</span>
+            </li>
+            <li class="option22">
+              <span class="option-text22">405</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="label-elecciones">
+        <label class="Lturno" for="turno">
+          Turno
+        </label>
+        <label class="LGenero" for="genero">
+          Género
+        </label>
+      </div>
+      <div class="elecciones2">
+        <div class="select-menu33 elec1">
+          <div class="select-btn33">
+            <span class="sBtn-text33">Selecciona tu turno</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+
+          <ul class="options33" id="shift-options">
+            <li class="option33">
+              <span class="option-text33">Matutino</span>
+            </li>
+            <li class="option33">
+              <span class="option-text33">Vespertino</span>
+            </li>
+          </ul>
+        </div>
+
+        <!--<div class="radios">
+        <input type="radio" name="sele" id="opcion1">
+        <input type="radio" name="sele" id="opcion2">
+        <label for="opcion1" class="opcion opcion1">
+          <div class="dot"></div>
+          <span>Masculino</span>
+        </label>
+        <label for="opcion2" class="opcion opcion2">
+          <div class="dot"></div>
+          <span>Femenino</span>
+        </label>
+      </div>-->
+      </div>
+      <div class="radios">
+        <input type="radio" name="sele" id="opcion1">
+        <input type="radio" name="sele" id="opcion2">
+        <label for="opcion1" class="opcion opcion1">
+          <div class="dot"></div>
+          <span>Masculino</span>
+        </label>
+        <label for="opcion2" class="opcion opcion2">
+          <div class="dot"></div>
+          <span>Femenino</span>
+        </label>
+      </div>
+    
+    </form>
+    <button onclick="generarQR()" class="qr-boton">Generar QR</button>
+    <button class="descar" onclick="descargarQR()">Descargar QR</button><br>
+    <button class="Regist" onclick="registrar()">Registrar</button>
+    <div id="qr-container" class="qr-qr"></div>
+
+
+   <div id="registroModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2>Datos Registrados</h2>
+        <p id="modal-list-number"></p>
+        <p id="modal-control-number"></p>
+        <p id="modal-name"></p>
+      </div>
+    </div>
+  
+
+  </div>
+  <script src="registro.js"></script>
+  <script src="codigoqr.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</body>
+
+</html>

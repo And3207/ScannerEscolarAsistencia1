@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de alumno</title>
+  <link rel="stylesheet" href="registros.css">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    /* Estilo personalizado para el botón */
+    .generar-btn {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #000;
+      border: 2px solid #000;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 5px;
+    }
+
+    .generar-btn:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    /* Estilo para el contenedor del código QR */
+    #qr-container {
+      border-radius: 10px;
+      overflow: hidden; /* Esto evita que el código QR se extienda más allá del contenedor */
+      opacity: 0; /* Ocultar el contenedor inicialmente */
+      transform: translateY(-20px); /* Desplazar hacia arriba */
+      transition: opacity 0.5s ease, transform 0.5s ease; /* Agregar una transición suave */
+    }
+
+    /* Estilo para mostrar el contenedor del código QR con la animación */
+    .show-qr {
+      opacity: 1; /* Mostrar el contenedor */
+      transform: translateY(0); /* Eliminar el desplazamiento */
+    }
+
+    /* Estilos para la ventana modal */
+    .modal {
+      display: none; /* Ocultar la modal por defecto */
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor">
+    <div class="conte-text">
+      <h1 class="titul">Registro de Estudiante</h1>
+      <p class="subtitul">Completa el siguiente formulario</p>
+    </div>
+    <div class="primeros-input">
+      <div class="contenedor-lista">
+        <label class="num-lista" for="list-number">Número de lista</label><br><br>
+        <input class="numero-lista" id="list-number" placeholder="Ingresa el número de lista" required="" />
+      </div>
+      <div class="contenedor-control">
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="control-number">Número de control</label><br><br>
+        <input class="num-control" id="control-number" placeholder="Ingresa el número de control" required="" />
+        <button class="generar-btn" onclick="generarQR()">Generar QR</button>
+        <button class="generar-btn" onclick="descargarQR()">Descargar QR</button>
+        <button class="generar-btn" onclick="registrar()">Registrar</button>
+      </div>
+    </div><br>
+    <div class="segundos-input">
+      <div class="contenedor-nom">
+        <label for="nombre">Nombre Completo</label><br><br>
+        <input class="nombre" id="name" placeholder="Ingresa tu nombre completo" required="" />
+      </div>
+    </div>
+    <div class="otros-inputs">
+      <div class="contenedor-carrera">
+        <label for="carrera">Carrera</label><br><br>
+        <div class="select-menu elec1">
+          <div class="select-btn">
+            <span class="sBtn-text">Selecciona tu carrera</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+          <ul class="options" id="career-options">
+            <li class="option">
+              <span class="option-text">Programación</span>
+            </li>
+            <li class="option">
+              <span class="option-text">Animación digital</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="contenedor-grupo">
+        <label for="grupo">Grupo</label><br><br>
+        <div class="select-menu elec2">
+          <div class="select-btn">
+            <span class="sBtn-text">Selecciona tu grupo</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+          <ul class="options" id="group-options">
+            <li class="option">
+              <span class="option-text">401</span>
+            </li>
+            <li class="option">
+              <span class="option-text">402</span>
+            </li>
+            <li class="option">
+              <span class="option-text">403</span>
+            </li>
+            <li class="option">
+              <span class="option-text">404</span>
+            </li>
+            <li class="option">
+              <span class="option-text">405</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="contenedor-turno">
+        <label for="turno">Turno</label><br><br>
+        <div class="select-menu elec3">
+          <div class="select-btn">
+            <span class="sBtn-text">Selecciona tu turno</span>
+            <i class="bx bx-chevron-down"></i>
+          </div>
+          <ul class="options" id="shift-options">
+            <li class="option">
+              <span class="option-text">Matutino</span>
+            </li>
+            <li class="option">
+              <span class="option-text">Vespertino</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="qr-container"></div>
+  </div>
+
+  <!-- Ventana Modal -->
+  <div id="registroModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+      <h2>Datos Registrados</h2>
+      <p id="modal-list-number"></p>
+      <p id="modal-control-number"></p>
+      <p id="modal-name"></p>
+      <p id="modal-career"></p>
+      <p id="modal-group"></p>
+      <p id="modal-shift"></p>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    var qrData = ""; // Variable global para almacenar el código QR generado
+
+    function generarQR() {
+      var numControl = document.getElementById("control-number").value;
+      if (numControl.trim() === "") {
+        alert("Por favor ingresa un número de control");
+        return;
+      }
+
+      var qrContainer = document.getElementById("qr-container");
+      qrContainer.innerHTML = ""; // Limpiar cualquier código QR anterior
+
+      qrData = numControl; // Guardar el código QR generado
+      console.log("Código QR generado:", qrData); // Mostrar el código QR generado en la consola
+      var qr = new QRCode(qrContainer, {
+        text: numControl,
+        width: 128,
+        height: 128,
+        colorDark: "#000000", // Cambia el color de los módulos oscuros
+        colorLight: "#ffffff", // Cambia el color de los módulos claros
+      });
+
+      qrContainer.classList.add('show-qr'); // Agregar la clase para mostrar la animación
+    }
+
+    function descargarQR() {
+      if (!qrData) {
+        alert("Primero genera un código QR");
+        return;
+      }
+
+      var qrCanvas = document.querySelector("#qr-container canvas");
+      var qrImageURL = qrCanvas.toDataURL("image/png"); // Obtener la URL de la imagen del código QR
+      var descargarLink = document.createElement("a");
+      descargarLink.href = qrImageURL;
+      descargarLink.download = "codigo_qr.png"; // Nombre del archivo a descargar
+      document.body.appendChild(descargarLink);
+      descargarLink.click();
+      document.body.removeChild(descargarLink); // Eliminar el enlace del DOM
+    }
+
+    function registrar() {
+      var listNumber = document.getElementById("list-number").value;
+      var controlNumber = document.getElementById("control-number").value;
+      var name = document.getElementById("name").value;
+
+      if (!qrData) {
+        alert("Primero genera un código QR");
+        return;
+      }
+
+      if (!listNumber || !controlNumber || !name) {
+        alert("Por favor completa todos los campos antes de registrar");
+        return;
+      }
+
+      var career = document.querySelector('.select-menu.elec1 .sBtn-text').innerText;
+      var group = document.querySelector('.select-menu.elec2 .sBtn-text').innerText;
+      var shift = document.querySelector('.select-menu.elec3 .sBtn-text').innerText;
+
+      // Actualizar el contenido de la ventana modal con los datos registrados
+      document.getElementById("modal-list-number").innerText = "Número de lista: " + listNumber;
+      document.getElementById("modal-control-number").innerText = "Número de control: " + controlNumber;
+      document.getElementById("modal-name").innerText = "Nombre completo: " + name;
+      document.getElementById("modal-career").innerText = "Carrera: " + career;
+      document.getElementById("modal-group").innerText = "Grupo: " + group;
+      document.getElementById("modal-shift").innerText = "Turno: " + shift;
+
+      // Mostrar la ventana modal
+      document.getElementById("registroModal").style.display = "block";
+    }
+
+    function cerrarModal() {
+      document.getElementById("registroModal").style.display = "none";
+    }
+
+    // Cerrar la ventana modal cuando el usuario haga clic fuera de ella
+    window.onclick = function(event) {
+      var modal = document.getElementById("registroModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Agregar el evento de clic a las opciones del menú
+    document.querySelectorAll('.select-menu .option').forEach(option => {
+      option.addEventListener('click', function() {
+        this.parentElement.parentElement.querySelector('.sBtn-text').innerText = this.innerText;
+      });
+    });
+
+    document.querySelectorAll('.select-menu22 .option22').forEach(option => {
+      option.addEventListener('click', function() {
+        this.parentElement.parentElement.querySelector('.sBtn-text22').innerText = this.innerText;
+      });
+    });
+
+    document.querySelectorAll('.select-menu33 .option33').forEach(option => {
+      option.addEventListener('click', function() {
+        this.parentElement.parentElement.querySelector('.sBtn-text33').innerText = this.innerText;
+      });
+    });
+  </script>
+</body>
+
+</html>
